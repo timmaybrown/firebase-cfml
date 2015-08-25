@@ -15,7 +15,7 @@ component {
 		var key = "";
 
 		application.firebase_settings = {
-			'default_url': 'https://sweltering-heat-6798.firebaseio.com/',
+			'default_url': '',
 			'default_token': '',
 			'default_todo_path': '',
 			'delete_path': '',
