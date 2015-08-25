@@ -1,0 +1,36 @@
+{
+    "name":"Firebase CFML",
+    "slug":"firebase-cfml",
+    "version":"0.1.0",
+    "author":"Tim Brown",
+    "private":false,
+    "packageDirectory":"firebase-cfml",
+    "license":[
+        {
+            "type":"MIT",
+            "url":"http://opensource.org/licenses/MIT"
+        }
+    ],
+    "engines":[
+        {
+            "type":"lucee",
+            "version":">=4.5.x"
+        }
+    ],
+    "devDependencies":{
+        "testbox":"2.0.0"
+    },
+    "installPaths":{
+        "testbox":"testbox"
+    },
+    "dependencies":{
+        
+    },
+    "ignore":[
+        "/tests/",
+        "/testbox/",
+        "/test",
+        "/.gitignore",
+        "/.travis.yml"
+    ]
+}
