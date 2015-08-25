@@ -1,5 +1,5 @@
 /**
- * Firebase CFML Client Library
+ * Firebase CFML REST Client Library
  *
  * @author Tim Brown <timmay.brown@gmail.com>
  * @url    https://github.com/timmaybrown/firebase-cfml/
@@ -62,12 +62,22 @@ component accessors="true" {
     }
 
     /**
+     * get()
+     *
+     * @hint retreive the data from the firebase resource path
+     *
+     */
+    public any function get( required string path ) {
+        return _sendRequest( path, 'GET' );
+    }
+
+    /**
      * set()
      *
      * @hint sets the data in the firebase path specified
      *
      */
-    public array function set( required string path, required any data ) {
+    public any function set( required string path, required any data ) {
       return _sendRequest( path, 'PUT', data );
     }
 
@@ -77,7 +87,7 @@ component accessors="true" {
      * @hint does a post the
      *
      */
-    public array function push( required string path, required any data ) {
+    public any function push( required string path, required any data ) {
       return _sendRequest( path, 'POST', data );
     }
 
@@ -87,24 +97,8 @@ component accessors="true" {
      * @hint Named children in the data being written with this method will be PATCHed, but omitted children will not be deleted
      *
      */
-    public array function update( required string path, required any data ) {
+    public any function update( required string path, required any data ) {
       return _sendRequest( path, 'PATCH', data );
-    }
-
-    /**
-     * get()
-     *
-     * @hint retreive the data from the firebase resource path
-     *
-     */
-    public any function get( required string path ) {
-        var res = "";
-
-        try {
-            return _sendRequest( path, 'GET' );
-        } catch ( any e ) {
-            return null;
-        }
     }
 
     /**
@@ -112,12 +106,8 @@ component accessors="true" {
      *
      * @hint delete the data at the specified path
      */
-    public function delete( required string path ) {
-        try {
-            return _sendRequest( path, 'DELETE' );
-        } catch ( any e ) {
-            $return = null;
-        }
+    public any function delete( required string path ) {
+        return _sendRequest( path, 'DELETE' );
     }
 
     /**
@@ -135,14 +125,14 @@ component accessors="true" {
         var httpService = new http();
         
         // set the URL to the path provided ?auth will be appended by _getJsonPath() if token has been set
-        var url = _getJsonPath( path );
+        var urlPath = _getJsonPath( path );
 
-        httpService.setURL( _getJsonPath( path ) );
+        httpService.setURL( urlPath );
         httpService.setCharset( "utf-8" ); 
         httpService.setMethod( arguments.method );
 
         // if data is supplied serialize it, set length header and add it as the body param
-        if ( len( arguments.data ) ) {
+        if ( !isSimpleValue(arguments.data) ) {
             var jsonData = serializeJSON( arguments.data );
             arrayAppend(headers, { "name" = "Content-Length", "value" = len( jsonData ) } );
             httpService.addParam( type = "body", value = jsonData );
@@ -152,7 +142,9 @@ component accessors="true" {
             httpService.addParam( type = "header", name = h.name, value = h.name );
         }
 
-        return httpService.send().getPrefix();
+        var result = httpService.send().getPrefix();
+
+        return deserializeJson(result.fileContent);
     }
 
     /**
