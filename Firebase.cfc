@@ -10,7 +10,7 @@
  */
 component accessors="true" {
 
-    property name='baseURI' type='string' getter="false" setter="false";    
+    property name='baseURI' type='string' getter="true" setter="false";    
     property name='timeout' type='string' default="10" getter="false" setter="false"; 
     property name='token' type='string' getter="false" setter="false"; 
 
@@ -103,7 +103,7 @@ component accessors="true" {
         try {
             return _sendRequest( path, 'GET' );
         } catch ( any e ) {
-            return = null;
+            return null;
         }
     }
 
@@ -136,7 +136,6 @@ component accessors="true" {
         
         // set the URL to the path provided ?auth will be appended by _getJsonPath() if token has been set
         var url = _getJsonPath( path );
-        if ( )
 
         httpService.setURL( _getJsonPath( path ) );
         httpService.setCharset( "utf-8" ); 
@@ -145,7 +144,7 @@ component accessors="true" {
         // if data is supplied serialize it, set length header and add it as the body param
         if ( len( arguments.data ) ) {
             var jsonData = serializeJSON( arguments.data );
-            arrayAppend( { "name" = "Content-Length", "value" = len( jsonData ) } );
+            arrayAppend(headers, { "name" = "Content-Length", "value" = len( jsonData ) } );
             httpService.addParam( type = "body", value = jsonData );
         }
 

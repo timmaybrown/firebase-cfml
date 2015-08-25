@@ -3,7 +3,7 @@ component {
 
 	this.mappings[ '/testbox' ] = ExpandPath( '../testbox' );
 	this.mappings[ '/tests'   ] = ExpandPath( './' );
-	this.mappings[ '/aws'   ] = ExpandPath( '../' );
+	this.mappings[ '/firebase'   ] = ExpandPath( '../' );
 
 	this.javaSettings = {
 		loadPaths: []
