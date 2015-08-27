@@ -27,6 +27,8 @@
         
     },
     "ignore":[
+        "/sample/",
+        "/sample-coldbox/",
         "/tests/",
         "/testbox/",
         "/test",

@@ -8,10 +8,10 @@
  * @output false
  *
  */
-component accessors="true" {
+component accessors="true" implements="IFirebase" {
 
     property name='baseURI' type='string' getter="true" setter="false";    
-    property name='timeout' type='string' default="10" getter="false" setter="false"; 
+    property name='timeout' type='numeric' default="10" getter="false" setter="false"; 
     property name='token' type='string' getter="false" setter="false"; 
 
     /**
@@ -57,7 +57,7 @@ component accessors="true" {
      * @hint sets the baseURI after normalizing it with a trailing slash
      *
      */
-    public void function setTimeout(seconds) {
+    public void function setTimeout(required numeric seconds) {
         variables.timeout = arguments.seconds;
     }
 
@@ -144,7 +144,12 @@ component accessors="true" {
 
         var result = httpService.send().getPrefix();
 
-        return deserializeJson(result.fileContent);
+        if (!isJson(result.fileContent)) {
+           throw('Error: ' & result.fileContent );
+        } else {
+            return deserializeJson(result.fileContent);
+        }
+
     }
 
     /**
